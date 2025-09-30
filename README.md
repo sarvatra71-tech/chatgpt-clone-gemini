@@ -14,10 +14,10 @@ A modern, feature-rich ChatGPT clone built with FastAPI and Google Gemini AI, fe
 
 ## Installation
 
-1. **Clone the repository**
+1. **Clone the repository**:
    ```bash
-   git clone <repository-url>
-   cd chatgpt-clone
+   git clone https://github.com/yourusername/chatgpt-clone-gemini.git
+   cd chatgpt-clone-gemini
    ```
 
 2. **Create a virtual environment**
@@ -158,6 +158,33 @@ The application includes comprehensive error handling:
    - Some research features work without SerpAPI but with limited functionality
 
 ## Development
+
+### Git Workflow
+
+1. **Create a new branch for features**:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+2. **Make your changes and commit**:
+   ```bash
+   git add .
+   git commit -m "Add your descriptive commit message"
+   ```
+
+3. **Push to your branch**:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+4. **Create a Pull Request** on GitHub
+
+### Local Development
+
+1. **Start the development server**:
+   ```bash
+   uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
+   ```
 
 ### Adding New Features
 1. Backend changes go in the `backend/` directory
