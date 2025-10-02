@@ -217,4 +217,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Built with [FastAPI](https://fastapi.tiangolo.com/) for the backend API
 - Powered by [Google Gemini](https://ai.google.dev/) for AI capabilities
 - Uses [SerpAPI](https://serpapi.com/) for web search functionality
-- Frontend styling inspired by ChatGPT's modern interface
+- Frontend styling inspired by ChatGPT's modern interface# Deployment trigger - Wed Oct  1 17:01:07 PDT 2025
