@@ -6,18 +6,30 @@
       "use": "@vercel/python"
     },
     {
+      "src": "api/index.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "frontend/index.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "frontend/static/**",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
+      "src": "^/$",
+      "dest": "/frontend/index.html"
+    },
+    {
       "src": "/static/(.*)",
       "dest": "/frontend/static/$1"
     },
     {
       "src": "/api/(.*)",
-      "dest": "/backend/main.py"
+      "dest": "/api/index.py"
     },
     {
       "src": "/(.*)",

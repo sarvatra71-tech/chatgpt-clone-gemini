@@ -1,6 +1,6 @@
-# Deploying ChatGPT Clone to Vercel
+# Deploying Enkay LLM ChatClone to Vercel
 
-This guide will walk you through deploying your ChatGPT clone with Google Gemini integration to Vercel.
+This guide will walk you through deploying your Enkay LLM ChatClone with Google Gemini integration to Vercel.
 
 ## Prerequisites
 
@@ -8,7 +8,6 @@ This guide will walk you through deploying your ChatGPT clone with Google Gemini
 2. **Vercel CLI** (optional but recommended): Install with `npm i -g vercel`
 3. **API Keys**: 
    - Google Gemini API key
-   - SerpAPI key (for research functionality)
 
 ## Step-by-Step Deployment
 
@@ -34,7 +33,6 @@ The project has been configured for Vercel deployment with:
 
 3. **Set Environment Variables**:
    - `GEMINI_API_KEY`: Your Google Gemini API key
-   - `SERPAPI_KEY`: Your SerpAPI key (optional, for research mode)
    - `MAX_FILE_SIZE`: `10485760` (10MB)
    - `ALLOWED_FILE_TYPES`: `txt,pdf,jpg,jpeg,png,gif,bmp`
 
@@ -63,7 +61,6 @@ The project has been configured for Vercel deployment with:
 4. **Set Environment Variables**:
    ```bash
    vercel env add GEMINI_API_KEY
-   vercel env add SERPAPI_KEY
    vercel env add MAX_FILE_SIZE
    vercel env add ALLOWED_FILE_TYPES
    ```
@@ -117,7 +114,6 @@ Set these in Vercel dashboard or CLI:
 | Variable | Description | Required |
 |----------|-------------|----------|
 | `GEMINI_API_KEY` | Google Gemini API key | Yes |
-| `SERPAPI_KEY` | SerpAPI key for web research | No |
 | `MAX_FILE_SIZE` | Maximum file upload size in bytes | No (default: 10MB) |
 | `ALLOWED_FILE_TYPES` | Comma-separated file extensions | No |
 
@@ -125,7 +121,7 @@ Set these in Vercel dashboard or CLI:
 
 ✅ **Chat Interface**: Full conversational AI with Google Gemini  
 ✅ **File Upload**: Support for text, PDF, and image files  
-✅ **Research Mode**: Web search integration (requires SerpAPI key)  
+✅ **Research Mode**: Web search simulation (no external key required)  
 ✅ **Conversation History**: Persistent chat sessions  
 ✅ **Error Handling**: Robust error handling with fallbacks  
 

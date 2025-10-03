@@ -1,9 +1,18 @@
-import google.generativeai as genai
-import requests
+try:
+    import google.generativeai as genai
+except Exception:
+    genai = None
+try:
+    import requests
+except Exception:
+    requests = None
 import os
 import time
 from typing import List, Dict, Optional
-from bs4 import BeautifulSoup
+try:
+    from bs4 import BeautifulSoup
+except Exception:
+    BeautifulSoup = None
 import json
 from dotenv import load_dotenv
 
@@ -12,17 +21,20 @@ load_dotenv()
 class ResearchAgent:
     def __init__(self):
         api_key = os.getenv("GEMINI_API_KEY")
-        if not api_key:
-            raise ValueError("GEMINI_API_KEY environment variable is required")
-        
-        genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-2.5-flash')
-        self.serpapi_key = os.getenv("SERPAPI_KEY")
+        self.model = None
+        if genai and api_key:
+            try:
+                genai.configure(api_key=api_key)
+                self.model = genai.GenerativeModel('gemini-2.5-flash')
+            except Exception:
+                self.model = None
         self.max_retries = 3
         self.retry_delay = 1  # seconds
         
     async def research_and_respond(self, query: str) -> str:
         """Perform deep research and provide comprehensive response"""
+        if not self.model:
+            return "Research service is not configured. Please set GEMINI_API_KEY."
         try:
             # Step 1: Analyze the query and generate search terms
             search_terms = await self._generate_search_terms(query)
@@ -84,15 +96,15 @@ Query: {query}"""
         return [query]
     
     async def _web_search(self, query: str) -> List[Dict]:
-        """Perform web search using simulated results (SerpAPI integration would go here)"""
-        # This is a simplified simulation - in production, you'd integrate with SerpAPI or similar
+        """Perform web search using simulated results"""
+        # This is a simplified simulation placeholder for web search
         try:
             # Simulated search results for demo purposes
             return [
                 {
                     "title": f"Search result for: {query}",
                     "link": "https://example.com",
-                    "snippet": f"This is a simulated search result for the query: {query}. In a real implementation, this would contain actual web search results from SerpAPI or similar service."
+                    "snippet": f"This is a simulated search result for the query: {query}. In a real implementation, this would contain actual web search results from a search API."
                 }
             ]
         except Exception as e:

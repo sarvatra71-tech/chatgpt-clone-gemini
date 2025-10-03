@@ -1,6 +1,6 @@
-# ChatGPT Clone with Google Gemini Integration
+# Enkay LLM ChatClone (Google Gemini Integration)
 
-A modern, feature-rich ChatGPT clone built with FastAPI and Google Gemini AI, featuring file upload capabilities and a deep research agent.
+A modern, feature-rich Enkay LLM ChatClone built with FastAPI and Google Gemini AI, featuring file upload capabilities and a deep research agent.
 
 ## Features
 
@@ -16,8 +16,8 @@ A modern, feature-rich ChatGPT clone built with FastAPI and Google Gemini AI, fe
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/chatgpt-clone-gemini.git
-   cd chatgpt-clone-gemini
+   git clone https://github.com/yourusername/enkay_llm_chatclone.git
+   cd enkay_llm_chatclone
    ```
 
 2. **Create a virtual environment**
@@ -39,7 +39,6 @@ A modern, feature-rich ChatGPT clone built with FastAPI and Google Gemini AI, fe
    Edit `.env` and add your API keys:
    ```
    GEMINI_API_KEY=your_google_gemini_api_key_here
-   SERPAPI_KEY=your_serpapi_key_here  # Optional, for research features
    MAX_FILE_SIZE=10485760  # 10MB
    ALLOWED_FILE_TYPES=txt,pdf,jpg,jpeg,png,gif,bmp
    ```
@@ -103,7 +102,6 @@ chatgpt-clone/
 
 ### Environment Variables
 - `GEMINI_API_KEY`: Your Google Gemini API key (required)
-- `SERPAPI_KEY`: Your SerpAPI key for web search (optional)
 - `MAX_FILE_SIZE`: Maximum file upload size in bytes (default: 10MB)
 - `ALLOWED_FILE_TYPES`: Comma-separated list of allowed file extensions
 
@@ -112,10 +110,8 @@ chatgpt-clone/
 2. Create a new API key
 3. Add the key to your `.env` file as `GEMINI_API_KEY`
 
-### SerpAPI Setup (Optional)
-1. Visit [SerpAPI](https://serpapi.com/)
-2. Sign up for an account and get your API key
-3. Add the key to your `.env` file as `SERPAPI_KEY`
+### Web Search Setup (Optional)
+If you plan to integrate a web search provider, configure its API key according to your chosen service. The current implementation uses simulated results and does not require an additional key.
 
 ## Supported File Types
 
@@ -153,9 +149,9 @@ The application includes comprehensive error handling:
    - Ensure sufficient disk space for temporary files
 
 4. **Research features not working**
-   - Verify `SERPAPI_KEY` is set (optional but recommended)
-   - Check internet connectivity
-   - Some research features work without SerpAPI but with limited functionality
+   - Research currently uses simulated search results (no extra API key required)
+   - Check internet connectivity if you integrate a real web search API
+   - If you add a provider, ensure its key is configured properly
 
 ## Development
 
@@ -216,5 +212,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Built with [FastAPI](https://fastapi.tiangolo.com/) for the backend API
 - Powered by [Google Gemini](https://ai.google.dev/) for AI capabilities
-- Uses [SerpAPI](https://serpapi.com/) for web search functionality
+-- Placeholder web search simulation; you can integrate a search API of choice
 - Frontend styling inspired by ChatGPT's modern interface# Deployment trigger - Wed Oct  1 17:01:07 PDT 2025

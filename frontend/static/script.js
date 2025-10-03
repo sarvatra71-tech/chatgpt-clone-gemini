@@ -299,7 +299,7 @@ function startNewChat() {
             <div class="welcome-icon">
                 <i class="fas fa-robot"></i>
             </div>
-            <h2>Welcome to ChatGPT Clone</h2>
+            <h2>Welcome to Enkay LLM ChatClone</h2>
             <p>I'm here to help you with questions, file analysis, and research. You can:</p>
             <ul>
                 <li><i class="fas fa-comment"></i> Ask me anything</li>

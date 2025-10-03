@@ -1,4 +1,7 @@
-import google.generativeai as genai
+try:
+    import google.generativeai as genai
+except Exception:
+    genai = None
 import os
 import json
 import uuid
@@ -12,17 +15,23 @@ load_dotenv()
 class ChatService:
     def __init__(self):
         api_key = os.getenv("GEMINI_API_KEY")
-        if not api_key:
-            raise ValueError("GEMINI_API_KEY environment variable is required")
+        self.model = None
+        if genai and api_key:
+            try:
+                genai.configure(api_key=api_key)
+                self.model = genai.GenerativeModel('gemini-2.5-flash')
+            except Exception:
+                # If model initialization fails, keep graceful fallback
+                self.model = None
         
-        genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-2.5-flash')
         self.conversations = {}  # In-memory storage for demo
         self.max_retries = 3
         self.retry_delay = 1  # seconds
         
     async def get_response(self, message: str, conversation_id: Optional[str] = None) -> str:
         """Get response from Gemini API with error handling and retries"""
+        if not self.model:
+            return "AI service is not configured. Please set GEMINI_API_KEY."
         for attempt in range(self.max_retries):
             try:
                 # Get or create conversation
@@ -123,6 +132,8 @@ class ChatService:
     
     async def analyze_file_content(self, content: str, filename: str, user_question: str = None) -> str:
         """Analyze file content using Gemini with error handling and retries"""
+        if not self.model:
+            return "AI service is not configured for file analysis. Please set GEMINI_API_KEY."
         for attempt in range(self.max_retries):
             try:
                 # Prepare the prompt for file analysis

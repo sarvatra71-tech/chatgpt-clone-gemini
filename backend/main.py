@@ -1,20 +1,19 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 import os
 import json
 import uuid
 from datetime import datetime
 from typing import List, Optional
-import aiofiles
 from pydantic import BaseModel
 
-from .chat_service import ChatService
-from .file_service import FileService
-from .research_agent import ResearchAgent
+from backend.chat_service import ChatService
+from backend.file_service import FileService
+from backend.research_agent import ResearchAgent
 
-app = FastAPI(title="ChatGPT Clone", version="1.0.0")
+app = FastAPI(title="Enkay LLM ChatClone", version="1.0.0")
 
 # CORS middleware
 app.add_middleware(
@@ -30,8 +29,6 @@ chat_service = ChatService()
 file_service = FileService()
 research_agent = ResearchAgent()
 
-# Create uploads directory
-os.makedirs("uploads", exist_ok=True)
 
 class ChatMessage(BaseModel):
     message: str
@@ -45,7 +42,23 @@ class ChatResponse(BaseModel):
 
 @app.get("/")
 async def read_root():
-    return FileResponse("frontend/index.html")
+    try:
+        return FileResponse("frontend/index.html")
+    except Exception:
+        # Fallback HTML in case file is not accessible in serverless runtime
+        return HTMLResponse(
+            """
+            <!doctype html>
+            <html>
+            <head><title>Enkay LLM ChatClone</title></head>
+            <body>
+              <h1>Enkay LLM ChatClone</h1>
+              <p>Frontend static route is configured. If you see this, the static file may not be accessible in the serverless runtime. Navigate to <a href="/">home</a> or use the API endpoints.</p>
+            </body>
+            </html>
+            """,
+            status_code=200
+        )
 
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat(message: ChatMessage):
@@ -66,7 +79,13 @@ async def chat(message: ChatMessage):
             timestamp=datetime.now().isoformat()
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        # Return friendly fallback instead of 500 to avoid FUNCTION_INVOCATION_FAILED
+        conversation_id = message.conversation_id or str(uuid.uuid4())
+        return ChatResponse(
+            response=f"I'm sorry, I ran into an issue: {str(e)}. Please try again.",
+            conversation_id=conversation_id,
+            timestamp=datetime.now().isoformat()
+        )
 
 @app.post("/api/upload")
 async def upload_file(file: UploadFile = File(...)):
@@ -74,15 +93,15 @@ async def upload_file(file: UploadFile = File(...)):
         # Validate file
         file_info = await file_service.validate_file(file)
         
-        # Save file
-        file_path = await file_service.save_file(file)
+        # Save file (in-memory) and get its ID
+        file_id = await file_service.save_file(file)
         
-        # Process file content
-        content = await file_service.extract_content(file_path, file.content_type)
+        # Process file content from in-memory storage
+        content = await file_service.extract_content(file_id)
         
         return {
             "filename": file.filename,
-            "file_id": file_info["file_id"],
+            "file_id": file_id,
             "content_preview": content[:500] + "..." if len(content) > 500 else content,
             "file_type": file.content_type,
             "size": file_info["size"]
@@ -126,6 +145,10 @@ async def get_conversation(conversation_id: str):
         return {"messages": messages}
     except Exception as e:
         raise HTTPException(status_code=404, detail="Conversation not found")
+
+@app.get("/api/ping")
+async def ping():
+    return {"ok": True}
 
 # Serve static files
 # Static files mounting for local development

@@ -1,1 +1,1 @@
-# Backend package for ChatGPT Clone
+"""Backend package initializer for Vercel runtime."""

@@ -1,6 +1,5 @@
 import os
 import uuid
-import aiofiles
 import mimetypes
 from typing import Dict, Optional
 from fastapi import UploadFile, HTTPException

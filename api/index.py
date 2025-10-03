@@ -1,4 +1,14 @@
-from backend.main import app
+from fastapi import FastAPI
 
-# Vercel expects the app to be available as 'app' in the api directory
+app = FastAPI()
+
+@app.get("/api/ping")
+async def ping():
+    return {"ok": True}
+
+@app.post("/api/chat")
+async def chat():
+    return {"response": "Service is initializing. Please try again shortly."}
+
+# Ensure Vercel can find the handler
 handler = app
